@@ -5,7 +5,7 @@ from selenium import webdriver
 
 
 profile = webdriver.FirefoxProfile()
-profile.set_preference('browser.download.dir', 'd:\\')
+
 profile.set_preference('browser.download.folderList', 2)
 profile.set_preference('browser.download.dir', os.getcwd())
 profile.set_preference('browser.download.manager.showWhenStarting', False)
@@ -13,23 +13,32 @@ profile.set_preference('browser.helperApps.neverAsk.saveToDisk', 'text/txt')
 ff = webdriver.Firefox(firefox_profile=profile, executable_path=r'./geckodriver.exe')
 
 
-webpage = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=5Cdom3WBCS7G41fHvX1&search_mode=GeneralSearch&prID=4b0fcdd9-6b27-4142-b544-67264e1d8944'
+webpage = dict()
+webpage['北京大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=5Cdom3WBCS7G41fHvX1&search_mode=GeneralSearch&prID=4b0fcdd9-6b27-4142-b544-67264e1d8944'
+webpage['清华大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=5BsFncBaEMbEhhl7cYk&search_mode=GeneralSearch&prID=11a1efee-cdf1-43b3-9679-5ae0596d2b03'
+webpage['中国人民大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=8A3QDqb3Qf1ufgXIwn8&search_mode=GeneralSearch&prID=b043d613-c44a-4a5c-90a9-78ab3e0401f1'
+webpage['北京理工大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=8A3QDqb3Qf1ufgXIwn8&search_mode=GeneralSearch&prID=d07c3abf-50cc-44ec-b159-d557a9bb25c4'
+webpage['北京航天航空大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=8A3QDqb3Qf1ufgXIwn8&search_mode=GeneralSearch&prID=a9768b71-3178-4205-a7b4-6db2898f31ac'
 
-ff.get(webpage)
+ff.get(webpage['清华大学'])
 download_arrow = ff.find_element_by_class_name('saveToButton').find_element_by_class_name('select2-selection__arrow')
 download_arrow.click()
 download_select = ff.find_element_by_class_name(
     'select2-results'
 ).find_element_by_xpath('//ul[@id="select2-saveToMenu-results"]/li[text()="Save to Other File Formats"]')
 
+total_num = 91319
 
-
-for x in range(91637 // 500):
-    # if x <= 0:
-    #     continue
+for x in range(total_num // 500 + 1):
+    if x < 66:
+        continue
+    elif x == total_num // 500:
+        start = x * 500 + 1
+        end = total_num
+    else:
+        start = x * 500 + 1
+        end = start + 500 - 1
     print(x)
-    start = x * 500 + 1
-    end = start + 500 - 1
     select = ff.find_element_by_id('select2-saveToMenu-container')
     select.click()
 
