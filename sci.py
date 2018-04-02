@@ -14,23 +14,21 @@ ff = webdriver.Firefox(firefox_profile=profile, executable_path=r'./geckodriver.
 
 
 webpage = dict()
-webpage['北京大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=5Cdom3WBCS7G41fHvX1&search_mode=GeneralSearch&prID=4b0fcdd9-6b27-4142-b544-67264e1d8944'
-webpage['清华大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=5BsFncBaEMbEhhl7cYk&search_mode=GeneralSearch&prID=11a1efee-cdf1-43b3-9679-5ae0596d2b03'
-webpage['中国人民大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=8A3QDqb3Qf1ufgXIwn8&search_mode=GeneralSearch&prID=b043d613-c44a-4a5c-90a9-78ab3e0401f1'
-webpage['北京理工大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=8A3QDqb3Qf1ufgXIwn8&search_mode=GeneralSearch&prID=d07c3abf-50cc-44ec-b159-d557a9bb25c4'
-webpage['北京航天航空大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=8A3QDqb3Qf1ufgXIwn8&search_mode=GeneralSearch&prID=a9768b71-3178-4205-a7b4-6db2898f31ac'
+webpage['中山大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=6FCnNVBk842X7ddED9p&search_mode=GeneralSearch&prID=3c94ac33-9fd0-4f43-b019-f1ad0436b3d0'
 
-ff.get(webpage['清华大学'])
+ff.get(webpage['中山大学'])
+
 download_arrow = ff.find_element_by_class_name('saveToButton').find_element_by_class_name('select2-selection__arrow')
 download_arrow.click()
 download_select = ff.find_element_by_class_name(
     'select2-results'
 ).find_element_by_xpath('//ul[@id="select2-saveToMenu-results"]/li[text()="Save to Other File Formats"]')
 
-total_num = 91319
+total_num = 54376
+skip_page = 99
 
 for x in range(total_num // 500 + 1):
-    if x < 66:
+    if x < skip_page:
         continue
     elif x == total_num // 500:
         start = x * 500 + 1
