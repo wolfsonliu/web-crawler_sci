@@ -14,9 +14,9 @@ ff = webdriver.Firefox(firefox_profile=profile, executable_path=r'./geckodriver.
 
 
 webpage = dict()
-webpage['中山大学'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=6FCnNVBk842X7ddED9p&search_mode=GeneralSearch&prID=3c94ac33-9fd0-4f43-b019-f1ad0436b3d0'
+webpage['University of North Carolina'] = 'https://apps.webofknowledge.com/Search.do?product=WOS&SID=6DtGxQpdIpxwPwMPNtF&search_mode=GeneralSearch&prID=fb678045-8286-4471-9373-5cc50eb98dc9'
 
-ff.get(webpage['中山大学'])
+ff.get(webpage['University of North Carolina'])
 
 download_arrow = ff.find_element_by_class_name('saveToButton').find_element_by_class_name('select2-selection__arrow')
 download_arrow.click()
@@ -24,8 +24,12 @@ download_select = ff.find_element_by_class_name(
     'select2-results'
 ).find_element_by_xpath('//ul[@id="select2-saveToMenu-results"]/li[text()="Save to Other File Formats"]')
 
-total_num = 54376
-skip_page = 99
+
+# 1900-2000 88120
+# 2001-2010 69896
+
+total_num = 69896
+skip_page = 130
 
 for x in range(total_num // 500 + 1):
     if x < skip_page:
@@ -36,7 +40,8 @@ for x in range(total_num // 500 + 1):
     else:
         start = x * 500 + 1
         end = start + 500 - 1
-    print(x)
+    print([x, start, end])
+    # break
     select = ff.find_element_by_id('select2-saveToMenu-container')
     select.click()
 
@@ -72,7 +77,7 @@ for x in range(total_num // 500 + 1):
 
     submit = ff.find_element_by_class_name('quickoutput-action').find_element_by_class_name('standard-button')
     submit.click()
-    time.sleep(17)
+    time.sleep(random.uniform(17, 20))
     close = ff.find_element_by_class_name('quickoutput-cancel-action')
     close.click()
-    time.sleep(random.uniform(0, 2))
+    time.sleep(2)
